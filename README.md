@@ -1,7 +1,25 @@
 # fasterclick
 a simpler alternative to fastclick
 
-- **[Download Here](https://github.com/jdh11235/fasterclick/releases)**
+1. **[Download Here](https://github.com/jdh11235/fasterclick/releases)**
+2. Load this script before any scripts that use Fastclick:
+```html
+<script src="fasterclick.js">
+```
+
+___
+
+*Usage:*
+```javascript
+Fasterclick.attach(element, callback);
+```
+
+*Example:*
+```javascript
+Fasterclick.attach(document.body, function(event) {
+	console.log(event);
+});
+```
 
 ___
 
