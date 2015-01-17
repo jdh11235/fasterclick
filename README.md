@@ -1,5 +1,5 @@
 # fasterclick
-a simpler alternative to fastclick
+a simpler alternative to **[fastclick](https://github.com/ftlabs/fastclick)**
 
 1. **[Download Here](https://github.com/jdh11235/fasterclick/releases)**
 2. Load this script before any scripts that use Fasterclick:
