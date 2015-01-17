@@ -36,6 +36,9 @@ Storing the uid will allow you to cancel the event listener later:
 Fasterclick.cancel(uid);
 ```
 
+
 ___
+
+*Note: Fasterclick is original work by Jonathan Herman, and is not affiliated with Fastclick or FT Labs.*
 
 MIT License.
