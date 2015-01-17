@@ -15,7 +15,7 @@ ___
 Fasterclick.attach(element, callback);
 ```
 
-This will return the click event to your callback function, however if there is a touch event, it will return that instead (it will not return both events).
+This will return the element's click events to your callback function, however if there is a touch event, it will return that instead of the click event (it will not return both events).
 
 *Example:*
 ```javascript
