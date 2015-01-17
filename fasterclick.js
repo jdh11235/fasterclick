@@ -13,61 +13,60 @@
 			Fasterclick.latest_uid++;
 
 			//construct Function() event wrapper that calls handler with uid
-			Fasterclick.touch_handlers[uid] = Function('event', 'Fasterclick.touchWrapper(event, "' + uid + '")');
+			Fasterclick.cache.touch_handlers[uid] = Function('event', 'Fasterclick.touchWrapper(event, "' + uid + '")');
 
-			Fasterclick.click_handlers[uid] = Function('event', 'Fasterclick.clickWrapper(event, "' + uid + '")');
+			Fasterclick.cache.click_handlers[uid] = Function('event', 'Fasterclick.clickWrapper(event, "' + uid + '")');
 
 			//add references
-			Fasterclick.elements[uid] = element;
-			Fasterclick.callbacks[uid] = callback;
-			Fasterclick.touch_queue[uid] = 0;
+			Fasterclick.cache.elements[uid] = element;
+			Fasterclick.cache.callbacks[uid] = callback;
+			Fasterclick.cache.touch_queue[uid] = 0;
 
 			//attach event wrappers to element
-			element.addEventListener('touchstart', Fasterclick.touch_handlers[uid]);
-			element.addEventListener('click', Fasterclick.click_handlers[uid]);
+			element.addEventListener('touchstart', Fasterclick.cache.touch_handlers[uid]);
+			element.addEventListener('click', Fasterclick.cache.click_handlers[uid]);
 
 			//for use with Fasterclick.cancel(uid);
 			return uid;
 		},
 
 		cancel: function(uid) {
-			Fasterclick.elements[uid].removeEventListener('touchstart', Fasterclick.touch_handlers[uid]);
-			Fasterclick.elements[uid].removeEventListener('click', Fasterclick.click_handlers[uid]);
+			Fasterclick.cache.elements[uid].removeEventListener('touchstart', Fasterclick.cache.touch_handlers[uid]);
+			Fasterclick.cache.elements[uid].removeEventListener('click', Fasterclick.cache.click_handlers[uid]);
 
 			//remove references
-			Fasterclick.callbacks[uid] = null;
-			Fasterclick.touch_queue[uid] = null;
+			Fasterclick.cache.callbacks[uid] = null;
+			Fasterclick.cache.touch_queue[uid] = null;
 
-			Fasterclick.elements[uid] = null;
-			Fasterclick.touch_handlers[uid] = null;
-			Fasterclick.click_handlers[uid] = null;
+			Fasterclick.cache.elements[uid] = null;
+			Fasterclick.cache.touch_handlers[uid] = null;
+			Fasterclick.cache.click_handlers[uid] = null;
 		},
 
 		//event handlers
 		touchWrapper: function(event, uid) {
-			Fasterclick.touch_queue[uid]++;
-			Fasterclick.callbacks[uid](event);
+			Fasterclick.cache.touch_queue[uid]++;
+			Fasterclick.cache.callbacks[uid](event);
 		},
 
 		clickWrapper: function(event, uid) {
-			if (Fasterclick.touch_queue > 0) {
-				Fasterclick.touch_queue--;
+			if (Fasterclick.cache.touch_queue[uid] > 0) {
+				Fasterclick.cache.touch_queue[uid]--;
 			} else {
-				Fasterclick.callbacks[uid](event);
+				Fasterclick.cache.callbacks[uid](event);
 			}
 		},
 
-		//FUTURE: move the following code into Fasterclick.cache
-		//FUTURE: change cache names from plural to singular
+		cache: {
+			//reference caches for event wrappers
+			callbacks: [],
+			touch_queue: [],
 
-		//reference caches for event wrappers
-		callbacks: [],
-		touch_queue: [],
-
-		//reference caches for Fasterclick.cancel()
-		elements: [],
-		touch_handlers: [],
-		click_handlers: [],
+			//reference caches for Fasterclick.cancel()
+			elements: [],
+			touch_handlers: [],
+			click_handlers: []
+		},
 
 		//misc. helpers
 		latest_uid: 0
