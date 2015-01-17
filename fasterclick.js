@@ -6,8 +6,8 @@
 		//main method
 		attach: function(element, callback) {
 
-			//add Function() wrapper to element event listener that calls reference cache
-			//generate uid to store element, callback, touch_counter in caches
+			//generate uid to store element, callback, touch_counter in cache
+			//construct Function() element event wrapper that calls cache with uid
 
 		},
 
