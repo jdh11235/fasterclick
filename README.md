@@ -4,7 +4,7 @@ Fasterclick is a streamlined alternative to **[Fastclick](https://github.com/ftl
 1. **[Download Here](https://github.com/jdh11235/fasterclick/releases)**
 2. Load this script before any scripts that use Fasterclick:
 ```html
-<script src="fasterclick-1.2.js">
+<script src="fasterclick-1.2.js"></script>
 ```
 
 ___
