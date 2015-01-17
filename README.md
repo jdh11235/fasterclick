@@ -1,5 +1,5 @@
 # fasterclick
-Fasterclick is a streamlined approach to **[Fastclick](https://github.com/ftlabs/fastclick)**. &nbsp;Fasterclick is targeted for fine-grained control of each element's click/touch behavior, and does not replace all functionallity of Fastclick.
+Fasterclick is a streamlined alternative to **[Fastclick](https://github.com/ftlabs/fastclick)**. &nbsp;Fasterclick is targeted for fine-grained control of each element's click/touch behavior, and does not replace all functionality of Fastclick.
 
 1. **[Download Here](https://github.com/jdh11235/fasterclick/releases)**
 2. Load this script before any scripts that use Fasterclick:
