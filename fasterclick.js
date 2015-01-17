@@ -12,6 +12,8 @@
 			var uid = Fasterclick.latest_uid;
 			Fasterclick.latest_uid++;
 
+			Fasterclick.cache.exists[uid] = true;
+
 			//construct Function() event wrapper that calls handler with uid
 			Fasterclick.cache.touch_handler[uid] = Function('event', 'Fasterclick.touchWrapper(event, "' + uid + '")');
 
@@ -31,25 +33,34 @@
 		},
 
 		cancel: function(uid) {
-			Fasterclick.cache.element[uid].removeEventListener('touchstart', Fasterclick.cache.touch_handler[uid]);
-			Fasterclick.cache.element[uid].removeEventListener('click', Fasterclick.cache.click_handler[uid]);
+			if (Fasterclick.cache.exists[uid]) {
+				Fasterclick.cache.exists[uid] = false;
 
-			//remove references
-			Fasterclick.cache.callback[uid] = null;
-			Fasterclick.cache.touch_queue[uid] = null;
+				Fasterclick.cache.element[uid].removeEventListener('touchstart', Fasterclick.cache.touch_handler[uid]);
+				Fasterclick.cache.element[uid].removeEventListener('click', Fasterclick.cache.click_handler[uid]);
 
-			Fasterclick.cache.element[uid] = null;
-			Fasterclick.cache.touch_handler[uid] = null;
-			Fasterclick.cache.click_handler[uid] = null;
+				//remove references
+				Fasterclick.cache.callback[uid] = null;
+				Fasterclick.cache.touch_queue[uid] = null;
+				Fasterclick.cache.element[uid] = null;
+				Fasterclick.cache.touch_handler[uid] = null;
+				Fasterclick.cache.click_handler[uid] = null;
+
+				return true;
+			} else {
+				return false;
+			}
 		},
 
-		//call original function
+		//callbacks (user's event handler function)
+
+		//send touch event
 		touchWrapper: function(event, uid) {
 			Fasterclick.cache.touch_queue[uid]++;
 			Fasterclick.cache.callback[uid](event);
 		},
 
-		//send click event only if
+		//send click event (only if touch event has not fired first)
 		clickWrapper: function(event, uid) {
 			if (Fasterclick.cache.touch_queue[uid] > 0) {
 				Fasterclick.cache.touch_queue[uid]--;
@@ -58,15 +69,14 @@
 			}
 		},
 
+		//caches for reference
 		cache: {
-			//reference caches for event wrappers
 			callback: [],
-			touch_queue: [],
-
-			//reference caches for Fasterclick.cancel()
+			click_handler: [],
 			element: [],
+			exists: [],
 			touch_handler: [],
-			click_handler: []
+			touch_queue: []
 		},
 
 		//misc. helpers
