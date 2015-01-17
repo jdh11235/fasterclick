@@ -10,13 +10,14 @@
 		attach: function(element, callback) {
 
 			//generate uid to store element, callback, touch_counter in cache
-			var uid = Fasterclick.latest_uid + 1;
+			var uid = Fasterclick.latest_uid;
 			Fasterclick.latest_uid++;
 
 			//construct Function() event wrapper that calls handler with uid
 			var touch_wrapper = Function('event', 'Fasterclick.touchHandler(event, "' + uid + '")');
 
 			var click_wrapper = Function('event', 'Fasterclick.clickHandler(event, "' + uid + '")');
+			//FIXME: store wrappers in cache to replace _events for use in removeEventListener()
 
 			//add references
 			Fasterclick.elements[uid] = element;
@@ -24,8 +25,8 @@
 			Fasterclick.touch_counters[uid] = 0;
 
 			//attach event wrappers to element
-			element.addEventListener('touch', touch_wrapper);
-			element.addEventListener('click', click_wrapper);
+			Fasterclick.touch_events[uid] = element.addEventListener('touch', touch_wrapper);
+			Fasterclick.click_events[uid] = element.addEventListener('click', click_wrapper);
 
 			//for use with Fasterclick.cancel(uid);
 			return uid;
