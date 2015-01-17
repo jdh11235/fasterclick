@@ -1,6 +1,6 @@
 /* Copyright (c) 2015 Jonathan Herman. MIT License. */
 /* https://github.com/jdh11235/fasterclick */
-/* Fasterclick 1.1 */
+/* Fasterclick 1.2 */
 
 (function(){
 	'use strict';
