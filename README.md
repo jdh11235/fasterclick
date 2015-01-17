@@ -23,16 +23,12 @@ Fasterclick.attach(document.body, function(event) {
 });
 ```
 
-*Cancelation:*
+Storing the ```uid``` (Unique Identifier) will allow you to cancel the event listener later:
 ```javascript
 var uid = Fasterclick.attach(document.body, function(event) {
 console.log(event);
 });
-```
 
-Storing the uid will allow you to cancel the event listener later:
-
-```javascript
 Fasterclick.cancel(uid);
 ```
 
