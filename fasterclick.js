@@ -20,7 +20,7 @@
 			//add references
 			Fasterclick.elements[uid] = element;
 			Fasterclick.callbacks[uid] = callback;
-			Fasterclick.touch_counters[uid] = 0;
+			Fasterclick.touch_queue[uid] = 0;
 
 			//attach event wrappers to element
 			element.addEventListener('touchstart', Fasterclick.touch_handlers[uid]);
@@ -36,7 +36,7 @@
 
 			//remove references
 			Fasterclick.callbacks[uid] = null;
-			Fasterclick.touch_counters[uid] = null;
+			Fasterclick.touch_queue[uid] = null;
 
 			Fasterclick.elements[uid] = null;
 			Fasterclick.touch_handlers[uid] = null;
@@ -45,20 +45,24 @@
 
 		//event handlers
 		touchWrapper: function(event, uid) {
-			//TODO
-			console.log(event, uid);
+			Fasterclick.touch_queue[uid]++;
+			Fasterclick.callbacks[uid](event);
 		},
 
 		clickWrapper: function(event, uid) {
-			//TODO
-			console.log(event, uid);
+			if (Fasterclick.touch_queue > 0) {
+				Fasterclick.touch_queue--;
+			} else {
+				Fasterclick.callbacks[uid](event);
+			}
 		},
 
 		//FUTURE: move the following code into Fasterclick.cache
+		//FUTURE: change cache names from plural to singular
 
 		//reference caches for event wrappers
 		callbacks: [],
-		touch_counters: [],
+		touch_queue: [],
 
 		//reference caches for Fasterclick.cancel()
 		elements: [],
