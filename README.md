@@ -41,4 +41,4 @@ ___
 
 *Note: Fasterclick is original work by Jonathan Herman, and is not affiliated with Fastclick or FT Labs.*
 
-MIT License.
+**MIT License.**
